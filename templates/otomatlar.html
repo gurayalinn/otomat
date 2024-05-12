@@ -4,11 +4,11 @@
 {% load static %}
 
 <!-- Title -->
-{% block title %}- Ürün Kategori Listesi{% endblock %}
+{% block title %}- Otomatlar Listesi{% endblock %}
 <!-- OG Title -->
-{% block og_title %}Ürün Kategori Listesi{% endblock %}
+{% block og_title %}Otomatlar Listesi{% endblock %}
 <!-- TW Title -->
-{% block tw_title %}Ürün Kategori Listesi{% endblock %}
+{% block tw_title %}Otomatlar Listesi{% endblock %}
 <!-- Keywords -->
 {% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
 <!-- Description -->
@@ -27,10 +27,10 @@
                     <div class="col">
                         <div class="card">
                             <div class="card-header">
-                                    <h1 class="fs-2 link-info fw-bold">Kategoriler</h1>
+                                    <h1 class="fs-2 link-info fw-bold">Otomatlar</h1>
 
 
-                            <p class="card-text text-muted lead fw-light fs-6">Toplam kategori sayısı: {{ kategoriler.count }}</p>
+                            <p class="card-text text-muted lead fw-light fs-6">Toplam Otomat sayısı: {{ otomatlar.count }}</p>
 
                                 <div class="row my-2 mx-auto justify-content-center align-items-center text-end">
                                     <div class="col">
@@ -44,17 +44,17 @@
                                         <a href="{% url 'kategoriler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
                                         ">Tüm Kategoriler</a>
                                         </div>
-                                    </div>
+                                </div>
                             </div>
                         </div>
 
                             <div class="card-body my-2">
                                 <div class="row">
                                     <div class="col">
-                                {% include "kategori/_ekle.html" %}
+                                {% include "otomat/_ekle.html" %}
                                     </div>
                                 </div>
-                                {% include "kategori/_liste.html" %}
+                                {% include "otomat/_liste.html" %}
                             </div>
                         </div>
                     </div>

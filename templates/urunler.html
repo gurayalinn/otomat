@@ -35,10 +35,16 @@
                                 <div class="row my-2 mx-auto justify-content-center align-items-center text-end">
                                     <div class="col">
                                         &nbsp;
+                                        <a href="{% url 'urunler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
+                                        ">Tüm Ürünler</a>
+                                        &nbsp;
+                                        <a href="{% url 'otomatlar' %}" class="link-primary fw-bold fs-6 text-decoration-underline
+                                        ">Tüm Otomatlar</a>
+                                        &nbsp;
                                         <a href="{% url 'kategoriler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
                                         ">Tüm Kategoriler</a>
                                         </div>
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,27 +74,11 @@
                         </div>
                     </div>
 
-
-
                                     <div id="urun-carousel" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-inner">
-                                        {% if resimler %}
-                                        {% for resim in resimler %}
-                                        {% if resim.urun == urun %}
-                                        <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                                            <img src="{{ resim.image.url }}" class="card-img-top d-block img-fluid img-thumbnail w-100" alt="{{ urun.ad }}">
-                                        </div>
-                                        {% else %}
-                                        <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                                            <img src="{% static 'img/no-img.jpg' %}" class="card-img-top d-block img-fluid img-thumbnail w-100" alt="{{ urun.ad }}">
-                                        </div>
-                                        {% endif %}
-                                        {% endfor %}
-                                        {% else %}
                                         <div class="carousel-item active">
-                                            <img src="{% static 'img/no-img.jpg' %}" class="card-img-top d-block img-fluid img-thumbnail w-100" alt="{{ urun.ad }}">
+                                            <img src="{% url 'urun_resim_goruntule' urun.slug %}" class="card-img-top d-block img-fluid img-thumbnail w-100" alt="{{ urun.ad }}">
                                         </div>
-                                        {% endif %}
                                         </div>
                                     </div>
 

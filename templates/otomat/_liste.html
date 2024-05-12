@@ -1,0 +1,61 @@
+
+
+
+                                {% if otomatlar %}
+                                {% for otomat in otomatlar %}
+
+                                    <ul class="list-group list-group-flush">
+                                        <li
+                                            class="list-group list-group-item d-flex justify-content-between align-items-start"
+                                        >
+
+                                            <a
+                                                href="{% url 'otomat_detay' otomat.slug %}"
+                                                class="text-decoration-none"
+                                            >
+                                                <h2
+                                                    class="fs-5 fw-bold text-capitalize text-decoration-none"
+                                                >
+                                                    {{ otomat.ad }} - {{ otomat.konum }}
+
+                                                    {% if otomat.durum == True %}
+                                                <span class="badge bg-success rounded-pill">Aktif</span>
+                                                {% else %}
+                                                <span class="badge bg-danger rounded-pill">Pasif</span>
+                                                {% endif %}
+                                                </h2>
+
+                                                <p class="fs-6 text-muted">
+                                                    <span class="fw-bold">Kapasite:</span>
+                                                    <span class="font-monospace fw-bold fs-6
+                                                    {% if otomat.kapasite < 10 %} text-danger {% endif %}
+                                                    {% if otomat.kapasite < 20 %} text-warning {% endif %}
+                                                    {% if otomat.kapasite > 20 %} text-success {% endif %}
+                                                    ">{{ otomat.kapasite }}</span>
+
+                                                </p>
+                                                <div class="fs-6 text-muted">
+                                                    <p class="lead">{{ otomat.aciklama }}</p>
+                                                </div>
+                                           </a>
+
+                                        <div class="row justify-content-center text-center align-items-center">
+                                            <div class="col-auto">
+                                                <a href="{% url 'otomat_detay' otomat.slug %}" class="btn btn-primary btn-sm">Detay</a>
+                                            </div>
+                                            <div class="col-auto">
+                                            <a href="{% url 'otomat_sil' otomat.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Sil</a>
+                                            </div>
+                                        </div>
+                                        </li>
+                                    </ul>
+                                    <hr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <div class="text-center justify-content-center align-items-center my-2">
+                                    <p class="card-text text-danger lead fw-semibold fs-6 alert alert-warning" role="alert">
+                                        Otomat bulunamadı.
+                                    </p>
+                                    </div>
+                                    {% endif %}
+

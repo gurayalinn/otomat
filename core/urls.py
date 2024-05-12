@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views as core_views
+import core.views as core_views
+
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import (
     LoginView,
@@ -23,6 +24,16 @@ urlpatterns = [
         auth_views.PasswordChangeDoneView.as_view(),
         name="password_change_done",
     ),
+    path("otomatlar/", core_views.otomatlar, name="otomatlar"),
+    path("otomat/<slug:slug>/", core_views.otomat_detay, name="otomat_detay"),
+    path("otomat_ekle/", core_views.otomat_ekle, name="otomat_ekle"),
+    path("otomat_sil/<int:pk>/", core_views.otomat_sil, name="otomat_sil"),
+    path("otomat_durum/<int:pk>/", core_views.otomat_durum, name="otomat_durum"),
+    path(
+        "otomat_duzenle/<int:pk>/",
+        core_views.otomat_duzenle,
+        name="otomat_duzenle",
+    ),
     path("kategoriler/", core_views.kategoriler, name="kategoriler"),
     path("kategori/<slug:slug>/", core_views.kategori_detay, name="kategori_detay"),
     path("kategori_ekle/", core_views.kategori_ekle, name="kategori_ekle"),
@@ -45,6 +56,11 @@ urlpatterns = [
         "urun_resim_ekle/<int:pk>/",
         core_views.urun_resim_ekle,
         name="urun_resim_ekle",
+    ),
+    path(
+        "urun_resim/<slug:slug>/",
+        core_views.urun_resim_goruntule,
+        name="urun_resim_goruntule",
     ),
     path(
         "urun_resim_sil/<int:pk>/",

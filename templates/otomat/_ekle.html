@@ -1,0 +1,57 @@
+
+                                        <form
+                                            id="otomat-form-create"
+                                            action="{% url 'otomat_ekle' %}"
+                                            method="POST"
+                                        >
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <div class="input-group mb-3">
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="Otomat Adı"
+                                                    aria-label="Otomat Adı"
+                                                    aria-describedby="button-addon2"
+                                                    name="ad"
+                                                    required
+                                                />
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="Açıklama"
+                                                    aria-label="Açıklama"
+                                                    aria-describedby="button-addon2"
+                                                    name="aciklama"
+                                                    required
+                                                />
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="Konum"
+                                                    aria-label="Konum"
+                                                    aria-describedby="button-addon2"
+                                                    name="konum"
+                                                    required
+                                                />
+
+                                                <input
+                                                    type="number"
+                                                    value="0"
+                                                    class="form-control"
+                                                    placeholder="Kapasite"
+                                                    aria-label="Kapasite"
+                                                    aria-describedby="button-addon2"
+                                                    name="kapasite"
+                                                    required
+                                                />
+                                                <button
+                                                    class="btn btn-success"
+                                                    type="submit"
+                                                    id="button-addon2"
+                                                >
+                                                    Kaydet
+                                                </button>
+                                            </div>
+                                        </form>

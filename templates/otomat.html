@@ -1,0 +1,85 @@
+<!-- Base Template -->
+{% extends 'layout/_base.html' %}
+<!-- Static Files -->
+{% load static %}
+
+<!-- Title -->
+{% block title %}- Otomatlar Listesi{% endblock %}
+<!-- OG Title -->
+{% block og_title %}Otomatlar Listesi{% endblock %}
+<!-- TW Title -->
+{% block tw_title %}Otomatlar Listesi{% endblock %}
+<!-- Keywords -->
+{% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
+<!-- Description -->
+{% block description %}Otomat app{% endblock %}
+<!-- OG Description -->
+{% block og_description %}Otomat app{% endblock %}
+<!-- TW Description -->
+{% block tw_description %}Otomat app{% endblock %}
+<!-- STYLE -->
+{% block style %} smain { background-color: #c4c4c4 !important; } {% endblock %}
+<!-- Body -->
+{% block body %}
+<section class="mt-4" aria-label="Otomat" id="otomat">
+    <div class="container">
+                <div class="row">
+                        <div class="card">
+                            <div class="card-header"><a
+                                                href="{% url 'otomat_detay' otomat.slug %}"
+                                                class="text-decoration-none"
+                                            >
+                                            <h2
+                                            class="fs-5 fw-bold text-capitalize text-decoration-none"
+                                            >
+                                            {{ otomat.ad }} - {{ otomat.konum }}
+                                            </a>
+
+                                                    {% if otomat.durum == True %}
+                                                <span class="badge bg-success rounded-pill">Aktif</span>
+                                                {% else %}
+                                                <span class="badge bg-danger rounded-pill">Pasif</span>
+                                                {% endif %}
+                                                </h2>
+
+                                                <p class="fs-6 text-muted">
+                                                    <span class="fw-bold">Kapasite:</span>
+                                                    <span class="font-monospace fw-bold fs-6
+                                                    {% if otomat.kapasite < 10 %} text-danger {% endif %}
+                                                    {% if otomat.kapasite < 50 %} text-warning {% endif %}
+                                                    {% if otomat.kapasite > 100 %} text-success {% endif %}
+                                                    ">{{ otomat.kapasite }}</span>
+                                                </p>
+                                                <div class="fs-6 text-muted">
+                                                    <p class="lead">{{ otomat.aciklama }}</p>
+                                                </div>
+                            <p class="card-text text-muted lead fw-light fs-6">Bu otomata ait ürün sayısı: </p>
+
+                                <div class="row my-2 mx-auto justify-content-center align-items-center text-end">
+                                    <div class="col">
+                                        <a href="{% url 'otomat_duzenle' otomat.id %}" class="btn btn-warning btn-sm" id="edit" hx-target="#otomat-edit-modal" data-bs-toggle="modal" data-bs-target="#otomat-edit-modal">Otomat Düzenle</a>
+                                        <a href="{% url 'otomat_sil' otomat.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Otomat Sil</a>
+                                        &nbsp;
+                                        <a href="{% url 'kategoriler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
+                                        ">Tüm Kategoriler</a>
+                                        &nbsp;
+                                        <a href="{% url 'urunler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
+                                        ">Tüm Ürünler</a>
+                                        &nbsp;
+                                        <a href="{% url 'otomatlar' %}" class="link-primary fw-bold fs-6 text-decoration-underline
+                                        ">Tüm Otomatlar</a>
+                                    </div>
+                            </div>
+                            {% include "otomat/_duzenle.html" %}
+                            </div>
+                        </div>
+            </div>
+        </div>
+
+
+
+    </section>
+
+
+
+{% endblock %}

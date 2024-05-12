@@ -84,11 +84,11 @@ class OtomatSiraAdmin(admin.ModelAdmin):
 
 
 class OtomatUrunAdmin(admin.ModelAdmin):
-    list_display = ["urun", "sira", "created_at", "updated_at"]
-    search_fields = ["urun", "sira", "created_at", "updated_at"]
-    list_filter = ["urun", "sira", "created_at", "updated_at"]
+    list_display = ["otomat", "urun", "sira", "created_at", "updated_at"]
+    search_fields = ["otomat", "urun", "sira", "created_at", "updated_at"]
+    list_filter = ["otomat", "urun", "sira", "created_at", "updated_at"]
     list_per_page = 10
-    list_display_links = ["urun", "sira"]
+    list_display_links = ["otomat", "urun", "sira"]
 
     class Meta:
         model = models.OtomatUrun

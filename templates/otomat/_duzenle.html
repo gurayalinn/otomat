@@ -1,0 +1,70 @@
+<!-- Düzenleme formu -->
+<div id="otomat-edit-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info">Otomat Düzenle</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    action="{% url 'otomat_duzenle' otomat.id %}"
+                    method="POST"
+                    id="otomat-edit-form"
+                >
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <label class="form-control text-info" for="ad">Otomat Adı</label>
+                    <input
+                        type="text"
+                        class="form-control mb-3"
+                        placeholder="Otomat Adı"
+                        name="ad"
+                        value="{{ otomat.ad }}"
+                        required
+                    />
+                    <label class="form-control text-info" for="aciklama">Açıklama</label>
+                    <textarea
+                        class="form-control mb-3"
+                        placeholder="Açıklama"
+                        name="aciklama"
+                        required
+                    >{{ otomat.aciklama }}</textarea>
+                    <label class="form-control text-info" for="konum">Konum</label>
+                    <input
+                        type="text"
+                        class="form-control mb-3"
+                        placeholder="Konum"
+                        name="konum"
+                        value="{{ otomat.konum }}"
+                        required
+                    />
+
+                <label class="form-control text-info" for="kapasite">Kapasite</label>
+                    <input
+                        type="number"
+                        class="form-control mb-3"
+                        placeholder="Kapasite"
+                        name="kapasite"
+                        value="{{ otomat.kapasite }}"
+                        required
+                    />
+
+                    <button
+                        type="submit"
+                        class="btn btn-info btn-sm"
+                        id="edit"
+                        hx-post="{% url 'otomat_duzenle' otomat.id %}"
+                    >
+                        Kaydet
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,12 +21,12 @@ from django.views.decorators.csrf import csrf_protect
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from . import models as core_models
 from django.db.models import Q
 from django.contrib.auth.views import LoginView, LogoutView
 
 from django.views.generic.edit import CreateView
-from . import forms as core_forms
+import core.models as core_models
+import core.forms as core_forms
 
 
 class HomePageView(TemplateView):
@@ -48,6 +48,80 @@ class PasswordChanePageView(TemplateView):
 
 
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def otomatlar(request):
+
+    otomats = core_models.Otomat.objects.all()
+
+    context = {
+        "otomatlar": otomats,
+    }
+
+    return render(request, "otomatlar.html", context)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def otomat_detay(request, slug):
+    otomat = get_object_or_404(core_models.Otomat, slug=slug)
+
+    context = {
+        "otomat": otomat,
+    }
+
+    return render(request, "otomat.html", context)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def otomat_ekle(request):
+
+    if request.method == "POST":
+        ad = request.POST["ad"]
+        aciklama = request.POST["aciklama"]
+        konum = request.POST["konum"]
+        kapasite = request.POST["kapasite"]
+        otomat = core_models.Otomat(
+            ad=ad, aciklama=aciklama, konum=konum, kapasite=kapasite
+        )
+        otomat.save()
+        return redirect("otomatlar")
+
+    return render(request, "otomatlar.html")
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def otomat_duzenle(request, pk):
+
+    otomat = get_object_or_404(core_models.Otomat, pk=pk)
+    if request.method == "POST":
+        ad = request.POST["ad"]
+        aciklama = request.POST["aciklama"]
+        konum = request.POST["konum"]
+        kapasite = request.POST["kapasite"]
+        otomat.ad = ad
+        otomat.aciklama = aciklama
+        otomat.konum = konum
+        otomat.kapasite = kapasite
+        otomat.save()
+        return redirect("otomat_detay", slug=otomat.slug)
+    return render(request, "otomatlar.html")
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def otomat_sil(request, pk):
+    otomat = get_object_or_404(core_models.Otomat, pk=pk)
+    otomat.delete()
+
+    return redirect("otomatlar")
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def otomat_durum(request, pk):
+    otomat = get_object_or_404(core_models.Otomat, pk=pk)
+    otomat.durum = not otomat.durum
+    otomat.save()
+    return redirect("otomat", slug=otomat.slug)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
 def kategoriler(request):
 
     categories = core_models.Kategori.objects.all()
@@ -64,15 +138,12 @@ def kategori_detay(request, slug):
     category = get_object_or_404(core_models.Kategori, slug=slug)
     category_products = core_models.Urun.objects.filter(kategori=category)
     product_count = category_products.count()
-    images = []
-    for product in category_products:
-        images.append(product.get_images())
-    images = [item for sublist in images for item in sublist]
+    product_images = core_models.UrunResim.objects.filter(urun__kategori=category)
 
     context = {
         "kategori": category,
         "urunler": category_products,
-        "resimler": images,
+        "resimler": product_images,
         "urun_sayisi": product_count,
     }
 
@@ -146,7 +217,7 @@ def urun_ara(request):
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
 def urun(request, slug):
     product = get_object_or_404(core_models.Urun, slug=slug)
-    images = product.get_images()
+    images = core_models.UrunResim.objects.filter(urun=product)
     categories = core_models.Kategori.objects.all()
     context = {
         "urun": product,
@@ -205,6 +276,13 @@ def urun_resim_ekle(request, pk):
     else:
         form = core_forms.UrunResimForm()
     return render(request, "urun.html", {"form": form})
+
+
+def urun_resim_goruntule(request, slug):
+    image = get_object_or_404(core_models.UrunResim, urun__slug=slug)
+    context = {"resim": image}
+    http_response = HttpResponse(image.image, content_type="image/jpeg")
+    return http_response
 
 
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))

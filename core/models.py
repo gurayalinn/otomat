@@ -58,9 +58,6 @@ class Urun(models.Model):
     def get_kategori(self):
         return self.kategori
 
-    def get_images(self):
-        return self.images.all()
-
     def get_durum_display(self):
         if self.durum:
             return "Aktif"
@@ -139,6 +136,8 @@ class Otomat(models.Model):
     konum = models.CharField(max_length=200)
     kapasite = models.PositiveIntegerField(default=0)
 
+    objects = models.Manager()
+
     def __str__(self):
         return f"{self.ad}"
 
@@ -163,6 +162,7 @@ class OtomatSira(models.Model):
     slug = models.SlugField(
         null=False, blank=True, unique=True, db_index=True, editable=False
     )
+    objects = models.Manager()
 
     def __str__(self):
         return f"{self.sira_harf} {self.sira_no}"
@@ -173,13 +173,14 @@ class OtomatSira(models.Model):
 
 
 class OtomatUrun(models.Model):
-    urun = models.ForeignKey(
-        Urun, on_delete=models.CASCADE, related_name="otomat_urunler"
-    )
+    otomat = models.ForeignKey(Otomat, on_delete=models.CASCADE)
+    urun = models.ForeignKey(Urun, on_delete=models.CASCADE)
     sira = models.ForeignKey(OtomatSira, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = models.Manager()
 
     def __str__(self):
         return f"{self.urun} - {self.sira}"

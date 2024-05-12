@@ -2,7 +2,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from django.db.models.signals import delete
-from . import models as core_models
+import core.models as core_models
 
 
 @receiver(pre_save, sender=core_models.OtomatUrun)

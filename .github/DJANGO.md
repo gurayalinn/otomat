@@ -107,6 +107,15 @@ py -m pip uninstall -y $package_names
 py -m pip uninstall -r requirements.txt -y
 ```
 
+> Sync DB and migrations
+
+```bash
+py manage.py makemigrations
+py manage.py migrate
+py manage.py makemigrations core
+py manage.py migrate --run-syncdb
+```
+
 ### Pip
 
 [Pipenv Guide](https://realpython.com/what-is-pip/)
