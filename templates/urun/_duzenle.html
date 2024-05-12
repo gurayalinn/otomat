@@ -1,0 +1,94 @@
+<!-- Düzenleme formu -->
+<div id="urun-edit-form" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info">Ürün Düzenle</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    action="{% url 'urun_duzenle' urun.id %}"
+                    method="POST"
+                    id="edit-product-form"
+                >
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <label class="form-control text-info" for="ad">Ürün Adı</label>
+                    <input
+                        type="text"
+                        class="form-control mb-3"
+                        placeholder="Ürün Adı"
+                        name="ad"
+                        value="{{ urun.ad }}"
+                        required
+                    />
+                    <label class="form-control text-info" for="aciklama">Ürün Açıklama</label>
+                    <input
+                        type="text"
+                        class="form-control mb-3"
+                        placeholder="Ürün Açıklama"
+                        name="aciklama"
+                        value="{{ urun.aciklama }}"
+                        required
+                    />
+                    <label class="form-control text-info" for="kategori">Kategori</label>
+                    <select
+                        class="form-select mb-3"
+                        name="kategori"
+                        id="kategori"
+                        required
+                    >
+                        <option value="{{ urun.kategori.id }}" selected>
+                            {{ urun.kategori }}
+                        </option>
+                        {% for kategori in kategoriler %}
+                        <option value="{{ kategori.id }}">{{ kategori }}</option>
+                        {% endfor %}
+
+                    </select>
+
+                    <label class="form-control text-info" for="stok">Stok</label>
+                    <input
+                        type="number"
+                        class="form-control mb-3"
+                        placeholder="Stok"
+                        name="stok"
+                        value="{{ urun.stok }}"
+                        required
+                    />
+
+                    <label class="form-control text-info" for="fiyat">Fiyat</label>
+                    <input
+                        type="number"
+                        class="form-control mb-3"
+                        placeholder="Fiyat"
+                        name="fiyat"
+                        value="{{ urun.fiyat }}"
+                        required
+                    />
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+
+                        Kaydet
+                    </button>
+                </form>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

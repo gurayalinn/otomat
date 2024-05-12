@@ -1,0 +1,65 @@
+{% load static %}
+<div
+    class="modal-xl modal fade"
+    id="signinModal"
+    tabindex="-1"
+    aria-labelledby="signinModalLabel"
+    aria-hidden="true"
+    style="background-color: var(--bg-secondary); color: var(--bs-teal);)"
+>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary">
+                <h5 class="modal-title" id="signinModalLabel">SIGN-IN</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body bg-dark">
+                <!-- Kayıt/Giriş Tabları -->
+                <ul class="nav nav-tabs mb-3" id="signinTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button
+                            class="nav-link active link-success"
+                            id="login-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#login"
+                            type="button"
+                            role="tab"
+                            aria-controls="login"
+                            aria-selected="true"
+                        >
+                            Giriş Yap
+                        </button>
+                    </li>
+                    <!-- Kayıt/Giriş Tabları -->
+                    <li class="nav-item" role="presentation">
+                        <button
+                            class="nav-link link-success"
+                            id="signup-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#signup"
+                            type="button"
+                            role="tab"
+                            aria-controls="signup"
+                            aria-selected="false"
+                        >
+                            Kayıt Ol
+                        </button>
+                    </li>
+                </ul>
+                <!-- Kayıt/Giriş Tab -->
+                <div class="tab-content" id="signinTabsContent">
+                    <!-- Giriş -->
+                    {% include "layout/_login-form.html" %}
+
+                    <!-- Kayıt Ol -->
+                    {% include "layout/_register-form.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

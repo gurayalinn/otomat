@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Sitemap: http://localhost:8000/static/sitemap.xml
+Host: http://localhost:8000
+Disallow: /admin/
+Disallow: /static/
+Disallow: /*.jpg
+Disallow: /*.png
+Disallow: /*.pdf
+Disallow: /*.webp
+Disallow: /*.gif$
+Disallow: /cgi-bin/
+Disallow: /tmp/

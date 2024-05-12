@@ -1,0 +1,60 @@
+<!-- Base Template -->
+{% extends 'layout/_base.html' %}
+<!-- Static Files -->
+{% load static %}
+
+<!-- Title -->
+{% block title %}- Home{% endblock %}
+<!-- OG Title -->
+{% block og_title %}Home{% endblock %}
+<!-- TW Title -->
+{% block tw_title %}Home{% endblock %}
+<!-- Keywords -->
+{% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
+<!-- Description -->
+{% block description %}Otomat app{% endblock %}
+<!-- OG Description -->
+{% block og_description %}Otomat app{% endblock %}
+<!-- TW Description -->
+{% block tw_description %}Otomat app{% endblock %}
+<!-- STYLE -->
+{% block style %} home { background-color: red !important; } {% endblock %}
+<!-- Body -->
+{% block body %}
+<section class="mt-4" aria-label="Home" id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="fs-1"><strong>OTOMAT YÖNETİM PANELİ</strong></h1>
+
+                <h2 class="fw-normal fs-2 mt-4">Hoşgeldiniz!</h2>
+                <p class="lead">
+                    Bu panelde ürün, kategori ve otomat yönetimi yapabilirsiniz.
+                </p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row my-4 justify-content-center align-items-center text-center">
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'urunler' %}" class="btn btn-primary btn-lg w-100 dashboard-button">Ürünler</a>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'kategoriler' %}" class="btn btn-secondary btn-lg w-100 dashboard-button">Kategoriler</a>
+            </div>
+        </div>
+
+        <div class="row my-4 justify-content-center align-items-center text-center">
+            <div class="col-lg-4 col-md-6">
+                <a href="" class="btn btn-success btn-lg w-100 dashboard-button">Otomatlar</a>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <a href="" class="btn btn-warning btn-lg w-100 dashboard-button">Oturum</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

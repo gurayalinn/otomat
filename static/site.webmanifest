@@ -1,0 +1,20 @@
+{
+  "name": "Otomat Takip",
+  "short_name": "otomat",
+  "lang": "tr",
+  "description": "Otomat Takip otomasyon uygulaması",
+  "theme_color": "#fefefe",
+  "background_color": "#fefefe",
+  "display": "standalone",
+  "orientation": "landscape",
+  "scope": "/",
+  "start_url": "/?utm_source=home",
+  "icons": [
+    {
+      "src": "favicon/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    }
+  ]
+}

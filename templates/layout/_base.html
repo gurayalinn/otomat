@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+    prefix="og: https://ogp.me/ns#"
+    lang="tr"
+    class="no-js"
+    data-bs-theme="dark"
+>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=1, shrink-to-fit=no"
+        />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="content-language" content="tr" />
+        <base target="_top" href="/" />
+        <!-- MARK: TITLE -->
+        <title>OTOMAT {% block title %}{% endblock %}</title>
+        <meta
+            name="description"
+            content="{% block description %}{% endblock %}"
+        />
+        <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+        <meta
+            name="robots"
+            content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:-1"
+        />
+        <meta
+            property="og:title"
+            content="{% block og_title %}{% endblock %}"
+        />
+
+        <meta
+            property="og:description"
+            content="{% block og_description %}{% endblock %}"
+        />
+        <meta
+            name="twitter:description"
+            content="{% block tw_description %}{% endblock %}"
+        />
+        <meta
+            name="twitter:title"
+            content="{% block tw_title %}{% endblock %}"
+        />
+
+        <!-- MARK: CSP -->
+        {% include "layout/_csp.html" %}
+        <!-- MARK: FAVICON -->
+        {% include "layout/_favicon.html" %}
+        <!-- MARK: CSS -->
+        {% include "layout/_css.html" %}
+        <!-- MARK: OPENGRAPH -->
+        {% include "layout/_og.html" %}
+        <!-- MARK: SEO -->
+        {% include "layout/_seo.html" %}
+        <!-- MARK: THEME -->
+        {% include "layout/_theme.html" %}
+        <style>
+            {% block style %}
+
+            {% endblock %}
+        </style>
+    </head>
+
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        <a class="skip-main" href="#main">⏩</a>
+        <div class="wrapper container-fluid">
+            <!-- MARK: HEADER -->
+            {% include "layout/_header.html" %}
+
+            <main class="container main clearfix" id="content">
+                <!-- MARK: AUTH -->
+                <section aria-label="Auth Modal" id="auth">
+                </section>
+
+                <!-- MARK: SEARCH RESULT -->
+                <section aria-label="Search Result" id="search-result">
+                    <div id="search-results-container"></div>
+                </section>
+                {% if messages %}
+                <!-- MARK: ALERTS -->
+                {% for message in messages %}
+                <div
+                    class="alert alert-warning alert-dismissible fade show"
+                    role="alert"
+                >
+                    {{ message }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+                </div>
+
+                {% endfor %}
+                <!-- endfor -->
+                {% endif %}
+                <!-- MARK: ERROR -->
+                {% if error %}
+                <div
+                    role="alert"
+                    class="alert alert-danger alert-dismissible fade show"
+                >
+                    {{error}}
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                {% endif %}
+
+                <!-- MARK: HTMX DEBUG -->
+                {% if debug %}
+                <script>
+                    if (typeof window.htmx !== "undefined") {
+                        htmx.on("htmx:afterSettle", function (detail) {
+                            if (
+                                typeof window.djdt !== "undefined" &&
+                                detail.target instanceof HTMLBodyElement
+                            ) {
+                                djdt.show_toolbar();
+                            }
+                        });
+                    }
+                </script>
+                {% endif %}
+                <!-- MARK: BODY -->
+                <section aria-label="Main Content" id="main">
+                    {% block body %} {% endblock %}
+                </section>
+            </main>
+            <!-- MARK: FOOTER -->
+            {% include "layout/_footer.html" %}
+        </div>
+        <!-- MARK: JAVASCRIPT -->
+        {% include "layout/_js.html" %}
+    </body>
+</html>

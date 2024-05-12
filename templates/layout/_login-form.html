@@ -1,0 +1,76 @@
+<div
+    class="tab-pane fade show active"
+    id="login"
+    role="tabpanel"
+    aria-labelledby="login-tab"
+>
+
+{% load crispy_forms_tags %}
+    <!-- Giriş Yap Formu -->
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <!-- CSRF -->
+        {{ form|crispy }}
+        <!-- CSRF -->
+        {{ csrf_input }}
+        <!-- ALERTS -->
+        {% if form.errors %}
+        <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+        >
+            Giriş yaparken sorun oluştu: {% for field in form %}
+            <!-- - -->
+            {% if field.errors %}
+            <!-- - -->
+            {{ field.errors }}
+            <!-- - -->
+            {% endif %}
+            <!-- - -->
+            {% endfor %}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% endif %}
+        <!-- - -->
+        <!-- Giriş Yap Form Alanları
+        {{ form.as_p }}
+        <div class="mb-3">
+            <label for="username" class="form-label">Kullanıcı Adı</label>
+            <input
+                type="text"
+                class="form-control form-control-xl"
+                id="username"
+                name="username"
+                maxlength="50"
+                minlength="4"
+                placeholder="Kullanıcı adınızı girin"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Şifre</label>
+            <input
+                type="password"
+                class="form-control form-control-xl"
+                id="password"
+                name="password"
+                maxlength="128"
+                placeholder="Şifrenizi girin"
+                required
+            />
+        </div>-->
+        <!-- Giriş Yap Butonu -->
+        <button type="submit" class="btn btn-success btn-md w-100">Giriş Yap</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+        <p><a href="{% url 'password_reset' %}">Şifremi unuttum?</a></p>
+            <p class="text-center">
+        Admin paneline
+        <a href="/admin" class="link-info">Giriş Yap</a>
+    </p>
+    </form>
+</div>

@@ -1,0 +1,129 @@
+<!-- Base Template -->
+{% extends 'layout/_base.html' %}
+<!-- Static Files -->
+{% load static %}
+
+<!-- Title -->
+{% block title %}- Ürün Kategori Listesi{% endblock %}
+<!-- OG Title -->
+{% block og_title %}Ürün Kategori Listesi{% endblock %}
+<!-- TW Title -->
+{% block tw_title %}Ürün Kategori Listesi{% endblock %}
+<!-- Keywords -->
+{% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
+<!-- Description -->
+{% block description %}Otomat app{% endblock %}
+<!-- OG Description -->
+{% block og_description %}Otomat app{% endblock %}
+<!-- TW Description -->
+{% block tw_description %}Otomat app{% endblock %}
+<!-- STYLE -->
+{% block style %} smain { background-color: #c4c4c4 !important; } {% endblock %}
+<!-- Body -->
+{% block body %}
+<section class="mt-4" aria-label="Product" id="product">
+<div class="container">
+<div class="row">
+<div class="col">
+
+<div class="row justify-content-end">
+        <div class="col-auto">
+        <a href="{% url 'urun_sil' urun.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Ürün Sil</a>
+        </div>
+        <div class="col-auto">
+        <a href="#" class="btn btn-warning btn-sm" id="edit" hx-target="#urun-edit-form" data-bs-toggle="modal" data-bs-target="#urun-edit-form">Ürün Düzenle</a>
+        </div>
+        <div class="col-auto">
+        <a href="{% url 'urunler' %}" class="link-primary fw-bold fs-6 text-decoration-underline">Tüm Ürünler</a>
+        </div>
+</div>
+{% include "urun/_duzenle.html" %}
+
+<h1 class="fs-2 link-info fw-bold">{{ urun.ad }}</h1>
+
+
+<p class="text-muted lead fw-semibold fs-5">{{ urun.aciklama }}</p>
+<a href="{% url 'kategori_detay' urun.kategori.slug %}" class="text-decoration-none">
+<span class="badge bg-primary mb-4 mr-2">{{ urun.kategori }}</span>
+</a>
+
+{%if urun.get_durum_display == 'Aktif' %}
+<span class="badge bg-success fw-bold">{{ urun.get_durum_display }} <a href="{% url 'urun_durum' urun.id %}" class="text-danger fw-bold font-monospace"> Değiştir</a></span>
+
+{% else %}
+<span class="badge bg-danger fw-bold">{{ urun.get_durum_display }}<a href="{% url 'urun_durum' urun.id %}" class="text-warning fw-bold font-monospace"> Değiştir</a></span>
+
+{% endif %}
+
+<div class="row justify-content-center">
+        <div class="col-auto">
+            <p class="card-text text-success lead fw-bold fs-4">
+                                                        {% if urun.stok == 0 %}
+                                                          <span class="text-danger">Stokta yok</span>
+                                                        {% else %}
+                                                        Stokta {{ urun.stok }} adet var.
+                                                        {% endif %}
+                                                    </p>
+        </div>
+        <div class="col-auto">
+            <p class="text-success lead fw-bold fs-4">
+                                                      {% if urun.stok == 0 %}
+                                                        <span class="text-danger">Fiyat: - </span>
+                                                        {% else %}
+                                                        Fiyat: {{ urun.fiyat }} TL
+                                                         {% endif %}
+                                                             </p>
+        </div>
+</div>
+
+
+
+
+
+{% if resimler %}
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div class="carousel-inner">
+{% for resim in resimler %}
+<div class="carousel-item {% if forloop.first %} active {% endif %}">
+<img src="{{ resim.image.url }}" class="d-block img-fluid img-thumbnail w-50" alt="{{ urun.ad }}">
+<div class="carousel-caption d-none d-md-block">
+<a href="{% url 'urun_resim_sil' resim.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Görsel Sil</a>
+</div>
+</div>
+{% endfor %}
+</div>
+<button class="carousel-control-prev btn btn-primary btn-sm" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next btn btn-primary btn-sm" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-black" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+{% else %}
+<img src="{% static 'img/no-img.jpg' %}" class="card-img-top d-block img-fluid img-thumbnail w-50" alt="{{ urun.ad }}">
+{% endif %}
+
+<h2 class="fs-5 fw-bold text-info">Ürün Görsel Ekle</h2>
+<form method="POST" enctype="multipart/form-data" action="{% url 'urun_resim_ekle' urun.id %}" hx-post="{% url 'urun_resim_ekle' urun.id %}">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="hidden" id="urun" name="urun" value="{{ urun.id }}">
+<input type="file" class="form-control" id="image" name="image" required>
+<button type="submit" class="btn btn-md btn-success mt-2">Görsel Ekle</button>
+</form>
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+{% endblock %}

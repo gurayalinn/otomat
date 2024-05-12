@@ -1,0 +1,145 @@
+<!-- Base Template -->
+{% extends 'layout/_base.html' %}
+<!-- Static Files -->
+{% load static %}
+
+<!-- Title -->
+{% block title %}- Ürün Listesi{% endblock %}
+<!-- OG Title -->
+{% block og_title %}Ürün Listesi{% endblock %}
+<!-- TW Title -->
+{% block tw_title %}Ürün Listesi{% endblock %}
+<!-- Keywords -->
+{% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
+<!-- Description -->
+{% block description %}Otomat app{% endblock %}
+<!-- OG Description -->
+{% block og_description %}Otomat app{% endblock %}
+<!-- TW Description -->
+{% block tw_description %}Otomat app{% endblock %}
+<!-- STYLE -->
+{% block style %} smain { background-color: #c4c4c4 !important; } {% endblock %}
+<!-- Body -->
+{% block body %}
+<section class="mt-4" aria-label="Products" id="products">
+    <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                    <h1 class="fs-2 link-info fw-bold">Ürünler</h1>
+                            <p class="card-text text-muted lead fw-light fs-6">Toplam ürün sayısı: {{ urunler.count }}</p>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="row my-2 mx-auto justify-content-center align-items-center text-end">
+                                    <div class="col">
+                                        &nbsp;
+                                        <a href="{% url 'kategoriler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
+                                        ">Tüm Kategoriler</a>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 my-2 mx-auto">
+            {% if urunler %}
+            {% for urun in urunler %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+
+                    <div class="card-header mb-2">
+                        <div class="row justify-content-center text-center mx-auto align-items-center">
+                            <div class="col-auto">
+                                <a href="{% url 'urun' urun.slug %}" class="text-decoration-none">
+                                    <h2 class="card-text link-info fw-semibold fs-4">{{ urun.ad }}</h2>
+                                    </a>
+                            </div>
+                            <div class="row-auto">
+                                <a href="{% url 'kategori_detay' urun.kategori.slug %}" class="text-decoration-none">
+                                    <span class="badge bg-primary">{{ urun.kategori.ad }}</span></a>
+                                    {%if urun.get_durum_display == 'Aktif' %}
+                                    <span class="badge bg-success fw-bold">{{ urun.get_durum_display }}</span>
+                                    {% else %}
+                                    <span class="badge bg-danger fw-bold">{{ urun.get_durum_display }}</span>
+                                    {% endif %}
+                                </div>
+                        </div>
+                    </div>
+
+
+
+                                    <div id="urun-carousel" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                        {% if resimler %}
+                                        {% for resim in resimler %}
+                                        {% if resim.urun == urun %}
+                                        <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                                            <img src="{{ resim.image.url }}" class="card-img-top d-block img-fluid img-thumbnail w-100" alt="{{ urun.ad }}">
+                                        </div>
+                                        {% else %}
+                                        <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                                            <img src="{% static 'img/no-img.jpg' %}" class="card-img-top d-block img-fluid img-thumbnail w-100" alt="{{ urun.ad }}">
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <div class="carousel-item active">
+                                            <img src="{% static 'img/no-img.jpg' %}" class="card-img-top d-block img-fluid img-thumbnail w-100" alt="{{ urun.ad }}">
+                                        </div>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+
+
+                    <div class="card-body">
+                        <div class="row justify-content-start text-start mx-auto align-items-start">
+                            <div class="row-auto">
+                                <p class="card-text text-muted lead fw-light fs-6">{{ urun.aciklama|truncatechars:100 }}</p>
+                            </div>
+                            <div class="col-auto">
+                                <p class="card-text text-success lead fw-semibold fs-6">
+                            {% if urun.stok == 0 %}
+                                <span class="text-danger">Stokta yok</span>
+                            {% else %}
+                                Stokta {{ urun.stok }} adet var.
+                            {% endif %}
+                                </p>
+                            </div>
+                            <div class="col-auto">
+                            <p class="card-text text-success lead fw-semibold fs-6">
+                            {% if urun.stok == 0 %}
+                                <span class="text-danger">Fiyat: Stokta yok</span>
+                            {% else %}
+                                Fiyat: {{ urun.fiyat }} TL
+                            {% endif %}
+                            </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-center text-center align-items-center">
+                            <div class="col-auto">
+                                <a href="{% url 'urun' urun.slug %}" class="btn btn-primary btn-sm">Detay</a>
+                            </div>
+                            <div class="col-auto">
+                                <a href="{% url 'urun_sil' urun.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Sil</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+                                    <div class="text-center justify-content-center align-items-center my-2">
+                                    <p class="card-text text-danger lead fw-semibold fs-6 alert alert-warning" role="alert">
+                                        Ürün bulunamadı.
+                                    </p>
+                                    </div>
+                                    {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,72 @@
+
+
+
+                                        <form
+                                            id="product-form-create"
+                                            action="{% url 'kategori_urun_ekle' kategori.slug %}"
+                                            method="POST"
+                                        >
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <div class="input-group mb-3">
+
+                                                <input
+                                                    type="hidden"
+                                                    class="form-control"
+                                                    aria-label="Kategori"
+                                                    aria-describedby="button-addon2"
+                                                    name="kategori"
+                                                    id="kategori"
+                                                    value="{{ kategori.id }}"
+                                                    required
+                                                />
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="Ürün Adı"
+                                                    aria-label="Ürün Adı"
+                                                    aria-describedby="button-addon2"
+                                                    name="ad"
+                                                    required
+                                                />
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="Ürün Açıklama"
+                                                    aria-label="Ürün Açıklama"
+                                                    aria-describedby="button-addon2"
+                                                    name="aciklama"
+                                                    required
+                                                />
+
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Stok"
+                                                    aria-label="Stok"
+                                                    aria-describedby="button-addon2"
+                                                    name="stok"
+                                                    required
+                                                />
+
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Fiyat"
+                                                    aria-label="Fiyat"
+                                                    aria-describedby="button-addon2"
+                                                    name="fiyat"
+                                                    required
+                                                />
+
+                                                <button
+                                                    class="btn btn-success"
+                                                    type="submit"
+                                                    id="button-addon2"
+                                                >
+                                                    Kaydet
+                                                </button>
+                                            </div>
+                                        </form>

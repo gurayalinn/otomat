@@ -1,0 +1,170 @@
+<div
+    class="tab-pane fade"
+    id="signup"
+    role="tabpanel"
+    aria-labelledby="signup-tab"
+>
+<!-- Kayıt Ol Formu  -->
+{% load crispy_forms_tags %}
+<form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        <!-- CSRF -->
+        {{ form|crispy }}
+        <!-- CSRF -->
+        {{ csrf_input }}
+        <!-- ALERTS -->
+        {% if form.errors %}
+        <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+        >
+            Kayıt olurken bir sorun oluştu: {% for field in form %}
+            <!-- - -->
+            {% if field.errors %}
+            <!-- - -->
+            {{ field.errors }}
+            <!-- - -->
+            {% endif %}
+            <!-- - -->
+            {% endfor %}
+        </div>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% endif %}
+        <!-- -
+        <div class="mb-3">
+            <label for="reg_username" class="form-label">Kullanıcı Adı *</label>
+            <input
+                type="text"
+                class="form-control"
+                id="reg_username"
+                name="reg_username"
+                maxlength="50"
+                minlength="4"
+                placeholder="john_doe (4-50 karakter)"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-posta *</label>
+            <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                maxlength="254"
+                placeholder="email@example.com"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="tckn" class="form-label">TCKN *</label>
+            <input
+                type="text"
+                class="form-control"
+                id="tckn"
+                name="tckn"
+                maxlength="11"
+                placeholder="11 haneli TC Kimlik Numarası."
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="telefon" class="form-label">Telefon *</label>
+            <input
+                type="tel"
+                class="form-control"
+                id="telefon"
+                name="telefon"
+                maxlength="11"
+                placeholder="05XX 123 45 67"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="cinsiyet" class="form-label">Cinsiyet *</label>
+            <select class="form-select" id="cinsiyet" name="cinsiyet" required>
+                <option value="ERKEK">Erkek</option>
+                <option value="KADIN">Kadın</option>
+                <option value="DİĞER">Diğer</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dogum" class="form-label">Doğum Tarihi *</label>
+            <input
+                type="date"
+                class="form-control"
+                id="dogum"
+                name="dogum"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="adres" class="form-label">Adres *</label>
+            <textarea
+                class="form-control"
+                id="adres"
+                name="adres"
+                rows="2"
+                maxlength="255"
+                placeholder="Çankaya/Ankara"
+                required
+            ></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="first_name" class="form-label">Ad *</label>
+            <input
+                type="text"
+                class="form-control"
+                id="first_name"
+                name="first_name"
+                maxlength="50"
+                placeholder="John"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Soyad *</label>
+            <input
+                type="text"
+                class="form-control"
+                id="last_name"
+                name="last_name"
+                maxlength="150"
+                placeholder="Doe"
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="password1" class="form-label">Şifre *</label>
+            <input
+                type="password"
+                class="form-control"
+                id="password1"
+                name="password1"
+                maxlength="128"
+                placeholder="En az 8 karakter."
+                required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">Şifreyi Onayla *</label>
+            <input
+                type="password"
+                class="form-control"
+                id="password2"
+                name="password2"
+                maxlength="128"
+                placeholder="Şifreyi tekrar girin."
+                required
+            />
+        </div> -->
+        <!-- Kayıt Ol Butonu -->
+        <button type="submit" class="btn btn-success w-100">Kayıt Ol</button>
+    </form>
+</div>

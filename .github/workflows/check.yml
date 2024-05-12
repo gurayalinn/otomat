@@ -1,0 +1,32 @@
+name: "CHECK"
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read #  to fetch code (actions/checkout)
+  security-events: write # to fetch vulnerabilities (nancy)
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          python -m pytest
+      - name: Check for vulnerabilities
+        run: |
+          nancy check

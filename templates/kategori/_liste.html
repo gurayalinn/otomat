@@ -1,0 +1,48 @@
+
+
+
+                                {% if kategoriler %}
+                                {% for kategori in kategoriler %}
+
+                                    <ul class="list-group list-group-flush">
+                                        <li
+                                            class="list-group list-group-item d-flex justify-content-between align-items-start"
+                                        >
+
+                                            <a
+                                                href="{% url 'kategori_detay' kategori.slug %}"
+                                                class="text-decoration-none"
+                                            >
+                                                <h2
+                                                    class="fs-5 fw-bold text-capitalize text-decoration-none"
+                                                >
+                                                    {{ kategori.ad }}
+                                                </h2>
+
+                                                <p class="fs-6 text-muted">
+                                                    {{ kategori.aciklama }}
+                                                </p>
+                                           </a>
+
+
+                                        <div class="row justify-content-center text-center align-items-center">
+                                            <div class="col-auto">
+                                                <a href="{% url 'kategori_detay' kategori.slug %}" class="btn btn-primary btn-sm">Detay</a>
+                                            </div>
+                                            <div class="col-auto">
+                                            <a href="{% url 'kategori_sil' kategori.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Sil</a>
+                                            </div>
+                                        </div>
+                                        </li>
+                                    </ul>
+
+                                    {% endfor %}
+
+                                    {% else %}
+                                    <div class="text-center justify-content-center align-items-center my-2">
+                                    <p class="card-text text-danger lead fw-semibold fs-6 alert alert-warning" role="alert">
+                                        Kategori bulunamadı.
+                                    </p>
+                                    </div>
+                                    {% endif %}
+

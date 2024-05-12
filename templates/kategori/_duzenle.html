@@ -1,0 +1,50 @@
+<!-- Düzenleme formu -->
+<div id="kategori-edit" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info">Kategori Düzenle</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    action="{% url 'kategori_duzenle' kategori.id %}"
+                    method="POST"
+                    id="kategori-edit-form"
+                >
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <label class="form-control text-info" for="ad">Kategori Adı</label>
+                    <input
+                        type="text"
+                        class="form-control mb-3"
+                        placeholder="Kategori Adı"
+                        name="ad"
+                        value="{{ kategori.ad }}"
+                        required
+                    />
+                    <label class="form-control text-info" for="aciklama">Kategori Açıklama</label>
+                    <input
+                        type="text"
+                        class="form-control mb-3"
+                        placeholder="Kategori Açıklama"
+                        name="aciklama"
+                        value="{{ kategori.aciklama }}"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Kaydet
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

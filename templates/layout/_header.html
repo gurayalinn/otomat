@@ -1,0 +1,194 @@
+{% load static %}
+<!-- MARK: HEADER -->
+<header>
+    <div
+        class="navbar navbar-default navbar-static-top"
+        style="margin-bottom: 0"
+    >
+        <nav
+            style="
+                background-color: var(--bs-body-bg);
+                border-radius: 1vh;
+                border-bottom: 0.1em solid var(--bs-tertiary-color);
+                box-shadow: 0 0 0.2em var(--bs-tertiary-color);
+            "
+            aria-label="Navigation"
+            role="navigation"
+            class="container-fluid navbar navbar-dark fixed-top d-flex flex-row justify-content-around"
+            data-bs-theme="var(--bs-body-bg)"
+        >
+            <a
+                class="navbar-brand link-info mobile or lower hidden fw-semibold fs-5 font-monospace"
+                style="color: var(--bs-body-color)"
+                href="#"
+                aria-label="Home"
+                title="Home"
+            >
+                <img
+                    src="{% static 'favicon/favicon.svg' %}"
+                    alt="logo"
+                    width="60"
+                    height="auto"
+                    class="d-inline-block align-text-top"
+                />
+                OTOMAT APP
+            </a>
+            <a
+                class="navbar-brand link-info mobile only d-md-none"
+                style="color: var(--bs-body-color)"
+                href="#"
+                aria-label="Home"
+                title="Home"
+            >
+                <img
+                    src="{% static 'favicon/favicon.svg' %}"
+                    alt="logo"
+                    width="60"
+                    height="auto"
+                    class="d-inline-block align-text-top"
+                />
+            </a>
+            <a
+                class="nav-item nav-link mobile hidden tablet hidden fw-semibold fs-5 font-monospace"
+                style="color: var(--bs-body-color)"
+                href=""
+                >PANEL</a
+            >
+            <a
+                class="nav-item nav-link mobile only tablet only fw-semibold fs-5 font-monospace"
+                style="color: var(--bs-body-color)"
+                href=""
+                >PANEL</a
+            >
+
+
+            <div class="mobile hidden tablet hidden">
+                <form id="urun-search-form" hx-get="{% url 'urun_ara' %}" hx-target="#search-results-container">
+                    <input type="text" id="urun-search-input" name="q" placeholder="Ürün Ara...">
+                </form>
+            </div>
+
+
+
+            {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="nav-item nav-link link-danger mobile hidden tablet hidden fw-semibold fs-5 font-monospace" type="submit">SIGN-OUT</button>
+            </form>
+            {% else %}
+
+            <a href="{% url 'login' %}" class="nav-item nav-link mobile hidden tablet hidden">
+                <button
+                    type="button"
+                    class="btn btn-sm link-success fw-semibold fs-5 font-monospace"
+                >
+                    SIGN-IN
+                </button>
+            </a>
+
+            {% endif %}
+            <span
+                class="bd-theme-text"
+                type="button"
+                style="text-decoration: none"
+                class="fs-4"
+                tabindex="0"
+                id="toggleTheme"
+            >
+                🌞
+            </span>
+            <div class="mobile only tablet only">
+                <button
+                    data-umami-event="MobileMenu"
+                    style="
+                        background-color: var(--bs-tertiary-bg);
+                        border: 1px solid var(--bs-body-color);
+                    "
+                    class="d-xxl-none navbar-toggler btn btn-light d-flex justify-content-center align-items-center"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasDarkNavbar"
+                    aria-controls="offcanvasDarkNavbar"
+                    aria-label="Toggle navigation"
+                >
+                    <span
+                        style="color: var(--bs-body-color)"
+                        class="fs-3 fw-semibold link-info"
+                    >
+                        &Xi;
+                    </span>
+                </button>
+                <div
+                    class="offcanvas offcanvas-end text-bg-dark"
+                    tabindex="-1"
+                    id="offcanvasDarkNavbar"
+                    aria-labelledby="offcanvasDarkNavbarLabel"
+                >
+                    <div class="offcanvas-header">
+                        <h5
+                            class="offcanvas-title fw-semibold fs-4 font-monospace"
+                            id="offcanvasDarkNavbarLabel"
+                        >
+                            MENU
+                        </h5>
+                        <button
+                            type="button"
+                            class="navbar-toggler fs-3 fw-semibold link-info"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                        >
+                            &Chi;
+                        </button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul
+                            class="navbar-nav justify-content-end flex-grow-1 pe-2"
+                        >
+                            <li class="nav-item">
+                                    <form id="search-form" hx-get="{% url 'urun_ara' %}" hx-target="#search-results-container-nav">
+                                    <input type="text" id="search-input" name="q" placeholder="Ürün Ara...">
+                                    </form>
+                            </li>
+
+                            <li class="nav-item">
+                                <div id="search-results-container-nav"></div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link link-info fw-semibold fs-5 font-monospace"
+                                    href=""
+                                    >PANEL</a
+                                >
+                            </li>
+
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <form method="POST" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button class="nav-link link-danger fw-semibold fs-5 font-monospace" type="submit">SIGN-OUT</button>
+                                </form>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link link-success fw-semibold fs-5 font-monospace"
+                                    style="color: var(--bs-body-color)"
+                                    href="{% url 'login' %}"
+                                >
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                    >
+                                        SIGN-IN
+                                    </button>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>

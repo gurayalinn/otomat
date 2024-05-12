@@ -1,0 +1,86 @@
+<!-- Base Template -->
+{% extends 'layout/_base.html' %}
+<!-- Static Files -->
+{% load static %}
+<!-- Static Files -->
+{% load crispy_forms_tags %}
+
+<!-- Title -->
+{% block title %}- REGISTER{% endblock %}
+<!-- OG Title -->
+{% block og_title %}REGISTER{% endblock %}
+<!-- TW Title -->
+{% block tw_title %}REGISTER{% endblock %}
+<!-- Keywords -->
+{% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
+<!-- Description -->
+{% block description %}Otomat app{% endblock %}
+<!-- OG Description -->
+{% block og_description %}Otomat app{% endblock %}
+<!-- TW Description -->
+{% block tw_description %}Otomat app{% endblock %}
+
+<!-- Body -->
+{% block body %}
+<section aria-label="Auth Register" id="auth-register">
+    <div class="text-centers">
+        <img
+            src="{% static 'img/server.svg' %}"
+            alt="Otomat Logo"
+            class="img-fluid"
+            height="auto"
+            width="33%"
+        />
+    </div>
+
+    <!-- Giriş Yap -->
+    <h1 class="text-center">Kayıt Ol</h1>
+    <p class="text-center">
+        Hesabınız var mı? Hemen
+        <a href="{% url 'login' %}" class="link-info">Giriş Yapın!</a>
+    </p>
+
+    {% if next %}
+    <!-- --- -->
+    {% if user.is_authenticated %}
+    <p>
+        {{ user.email }} - Hesabınızla giriş yaptınız ve şimdi
+        <a href="{{ next }}" class="link-info">devam edebilirsiniz</a>.
+    </p>
+    {% endif %}
+    <!-- --- -->
+    {% endif %}
+
+    <!-- Giriş Form -->
+
+    <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+        <!-- CSRF -->
+        {{ form|crispy }}
+        <!-- CSRF -->
+        {{ csrf_input }}
+        <!-- ALERTS -->
+        {% if form.errors %}
+        <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+        >
+            Kayıt olurken bir sorun oluştu: {% for field in form %}
+            <!-- - -->
+            {% if field.errors %}
+            <!-- - -->
+            {{ field.errors }}
+            <!-- - -->
+            {% endif %}
+            <!-- - -->
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- Giriş Yap Butonu -->
+        <button type="submit" class="btn btn-success btn-md">Kayıt ol</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+        <p><a href="{% url 'password_reset' %}">Şifremi unuttum?</a></p>
+    </form>
+</section>
+
+{% endblock %}

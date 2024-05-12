@@ -1,0 +1,59 @@
+<!-- Base Template -->
+{% extends 'layout/_base.html' %}
+<!-- Static Files -->
+{% load static %}
+
+<!-- Title -->
+{% block title %}- Ürün Kategori Listesi{% endblock %}
+<!-- OG Title -->
+{% block og_title %}Ürün Kategori Listesi{% endblock %}
+<!-- TW Title -->
+{% block tw_title %}Ürün Kategori Listesi{% endblock %}
+<!-- Keywords -->
+{% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
+<!-- Description -->
+{% block description %}Otomat app{% endblock %}
+<!-- OG Description -->
+{% block og_description %}Otomat app{% endblock %}
+<!-- TW Description -->
+{% block tw_description %}Otomat app{% endblock %}
+<!-- STYLE -->
+{% block style %} smain { background-color: #c4c4c4 !important; } {% endblock %}
+<!-- Body -->
+{% block body %}
+<section class="mt-4" aria-label="Category" id="category">
+    <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                    <h1 class="fs-2 link-info fw-bold">Kategoriler</h1>
+
+
+                            <p class="card-text text-muted lead fw-light fs-6">Toplam kategori sayısı: {{ kategoriler.count }}</p>
+
+                                <div class="row my-2 mx-auto justify-content-center align-items-center text-end">
+                                    <div class="col">
+                                        &nbsp;
+                                        <a href="{% url 'urunler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
+                                        ">Tüm Ürünler</a>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+
+                            <div class="card-body my-2">
+                                <div class="row">
+                                    <div class="col">
+                                {% include "kategori/_ekle.html" %}
+                                    </div>
+                                </div>
+                                {% include "kategori/_liste.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</section>
+
+{% endblock %}

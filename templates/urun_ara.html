@@ -1,0 +1,40 @@
+
+        {% for urun in urunler %}
+            <div class="search-result bg-secondary p-2 mb-2">
+                <a href="{% url 'urun' urun.slug %}" class="text-decoration-underline">
+                    <h2 class="fs-6 link-info fw-bold">{{ urun.ad }}  - {{ urun.kategori }}
+                    {% if urun.get_durum_display == 'Aktif' %}
+                        <span class="badge bg-success fw-bold">{{ urun.get_durum_display }}</span>
+                    {% else %}
+                        <span class="badge bg-danger fw-bold">{{ urun.get_durum_display }}</span>
+                    {% endif %}
+                    </h2>
+                </a>
+                    <p class="text-muted lead fs-6 fw-light">{{ urun.aciklama|truncatechars:100 }}
+
+                <p class="text-white lead fs-6 fw-semi-bold
+                    {% if urun.stok == 0 %}
+                        text-danger
+                    {% endif %}
+                ">
+                    {% if urun.stok == 0 %}
+                        Stokta yok
+                    {% else %}
+                        Stokta {{ urun.stok }} adet var.
+                    {% endif %}
+                </p>
+                <p class="text-white lead fs-6 fw-bold
+                    {% if urun.stok == 0 %}
+                        text-danger
+                    {% endif %}
+                ">
+                    {% if urun.stok == 0 %}
+                        Fiyat: Stokta yok
+                    {% else %}
+                        Fiyat: {{ urun.fiyat }} TL
+                    {% endif %}
+                </p>
+            </div>
+        {% empty %}
+            <p class="text-danger lead fs-6 fw-semibold">Arama sonuçları bulunamadı.</p>
+        {% endfor %}
