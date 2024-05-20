@@ -1,0 +1,76 @@
+<div id="otomat-sira-edit-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info">Sıra Düzenle</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    action=""
+                    method="POST"
+                    id="otomat-sira-form-edit"
+                >
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="input-group mb-3">
+                        <input
+                            type="hidden"
+                            class="form-control"
+                            aria-label="Otomat"
+                            aria-describedby="button-addon2"
+                            name="otomat"
+                            id="otomat"
+                            value="{{ sira.otomat.id }}"
+                            required
+                        />
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Sıra Harf"
+                            aria-label="Sıra Harf"
+                            aria-describedby="button-addon2"
+                            name="sira_harf"
+                            value="{{ sira.sira_harf }}"
+                            required
+                        />
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Sıra No"
+                            aria-label="Sıra No"
+                            aria-describedby="button-addon2"
+                            name="sira_no"
+                            value="{{ sira.sira_no }}"
+                            required
+                        />
+                        <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Kapasite"
+                            aria-label="Kapasite"
+                            aria-describedby="button-addon2"
+                            name="kapasite"
+                            value="{{ sira.kapasite }}"
+                            required
+                        />
+                        <button
+                            class="btn btn-success"
+                            type="submit"
+                            id="button-addon2"
+                        >
+                            Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

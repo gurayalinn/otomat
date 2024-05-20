@@ -1,0 +1,53 @@
+
+
+
+                                {% for sira_urun in sira_urunler %}
+                                <div class="col-md-4 m-2">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a href="{% url 'sira' sira_urun.sira.slug %}" class="text-decoration-none">
+                                                <h2 class="fs-5 fw-bold text-capitalize text-decoration-none">
+                                                {% if sira_urun.sira.durum == True %}
+                                                <span class="text-success">{{ sira_urun.sira.otomat.ad }} - {{ sira_urun.sira.sira_harf }}-{{ sira_urun.sira.sira_no }}</span>
+                                                <span class="fw-light fs-6 text-success font-monospace">({{ sira_urun.urun_sayisi }}/{{ sira_urun.sira.kapasite }})</span>
+                                                {% else %}
+                                                <span class="text-danger">{{ sira_urun.sira.otomat.ad }} - {{ sira_urun.sira.sira_harf }}-{{ sira_urun.sira.sira_no }}</span>
+                                                <span class="fw-light fs-6 text-danger font-monospace">({{ sira_urun.urun_sayisi }}/{{ sira_urun.sira.kapasite }})</span>
+                                                {% endif %}
+                                                </h2>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush">
+                                                {% for urun in sira_urun.urunler %}
+                                                <li class="list-group list-group-item">
+                                                    <a href="{% url 'urun' urun.urun.slug %}">
+                                                    <span class="fw-bold">{{ urun.urun.kategori }} > {{ urun.urun.ad }}</span> - <span class="badge bg-primary rounded-pill">{{ urun.count }} adet</span>
+                                                    </a>
+                                                </li>
+                                                {% empty %}
+                                                <div class="alert alert-warning" role="alert">
+                                                <span>Bu sırada ürün yok.</span>
+                                                </div>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="{% url 'sira' sira_urun.sira.slug %}" class="btn btn-primary btn-sm">Detay</a>
+                                            <a href="{% url 'sira_sil' sira_urun.sira.id %}" class="btn btn-danger btn-sm">Sil</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="col-md-12 mt-4">
+                                    <div class="alert alert-warning" role="alert">
+                                        Sıra bulunamadı.
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% include "sira/_urun_ekle_modal.html" %}
+
+
+
+
+

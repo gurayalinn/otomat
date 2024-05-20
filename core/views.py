@@ -23,10 +23,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Q
 from django.contrib.auth.views import LoginView, LogoutView
-
+from collections import defaultdict
 from django.views.generic.edit import CreateView
 import core.models as core_models
 import core.forms as core_forms
+import uuid
 
 
 class HomePageView(TemplateView):
@@ -48,6 +49,83 @@ class PasswordChanePageView(TemplateView):
 
 
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def sira_urun_sil(request, slug, pk):
+    sira_urun = get_object_or_404(core_models.OtomatUrun, pk=pk)
+    sira = sira_urun.sira
+    sira_urun.delete()
+    return redirect("sira", slug=slug)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def sira_urun_ekle(request, slug):
+    urunler_listesi = core_models.Urun.objects.all()
+    sira = get_object_or_404(core_models.OtomatSira, slug=slug)
+
+    if request.method == "POST":
+        secilen_urun = core_models.Urun.objects.get(pk=request.POST["urun"])
+        sira_urun = core_models.OtomatUrun(urun=secilen_urun, sira=sira)
+        sira_urun.save()
+        return redirect("sira", slug=sira.slug)
+    return render(request, "sira.html", {"sira": sira, "tum_urunler": urunler_listesi})
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def sira_sil(request, pk):
+    sira = get_object_or_404(core_models.OtomatSira, pk=pk)
+    sira.delete()
+    return redirect("otomat_detay", slug=sira.otomat.slug)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def sira(request, slug):
+    sira = get_object_or_404(core_models.OtomatSira, slug=slug)
+    sira_urunler = core_models.OtomatUrun.objects.filter(sira=sira)
+    urunler_listesi = core_models.Urun.objects.all()
+    otomat_siralari = core_models.OtomatSira.objects.filter(
+        otomat=sira.otomat
+    ).order_by("sira_harf", "sira_no")
+
+    context = {
+        "sira": sira,
+        "sira_urunler": sira_urunler,
+        "tum_urunler": urunler_listesi,
+        "otomat_siralari": otomat_siralari,
+    }
+    return render(request, "sira.html", context)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def sira_duzenle(request, pk):
+    sira = get_object_or_404(core_models.OtomatSira, pk=pk)
+    if request.method == "POST":
+        kapasite = request.POST["kapasite"]
+        sira_no = request.POST["sira_no"]
+        sira_harf = request.POST["sira_harf"]
+        sira.kapasite = kapasite
+        sira.sira_no = sira_no
+        sira.sira_harf = sira_harf
+        sira.save()
+        return redirect("sira", slug=sira.slug)
+    return render(request, "sira.html", {"sira": sira})
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def otomat_sira_ekle(request, slug):
+    otomat = get_object_or_404(core_models.Otomat, slug=slug)
+    if request.method == "POST":
+        otomat = core_models.Otomat.objects.get(pk=request.POST["otomat"])
+        kapasite = request.POST["kapasite"]
+        sira_harf = request.POST["sira_harf"]
+        sira_no = request.POST["sira_no"]
+        sira = core_models.OtomatSira(
+            otomat=otomat, kapasite=kapasite, sira_harf=sira_harf, sira_no=sira_no
+        )
+        sira.save()
+        return redirect("otomat_detay", slug=otomat.slug)
+    return render(request, "otomat.html", {"otomat": otomat})
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
 def otomatlar(request):
 
     otomats = core_models.Otomat.objects.all()
@@ -62,11 +140,43 @@ def otomatlar(request):
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
 def otomat_detay(request, slug):
     otomat = get_object_or_404(core_models.Otomat, slug=slug)
+    urunler_listesi = core_models.Urun.objects.all()
+    otomat_siralari = core_models.OtomatSira.objects.filter(otomat=otomat).order_by(
+        "sira_harf", "sira_no"
+    )
+    toplam_kapasite = 0
+    sira_urunler = []
+    for sira in otomat_siralari:
+        tum_urunler = core_models.OtomatUrun.objects.filter(sira=sira)
+        toplam_kapasite += sira.kapasite
+        unique_urunler = {}
+        for urun in tum_urunler:
+            key = (urun.urun.kategori, urun.urun.ad)
+            if key in unique_urunler:
+                unique_urunler[key]["count"] += 1
+            else:
+                unique_urunler[key] = {"urun": urun.urun, "count": 1}
+        sira_urunler.append(
+            {
+                "sira": sira,
+                "urunler": unique_urunler.values(),
+                "urun_sayisi": tum_urunler.count(),
+            }
+        )
+
+    if request.method == "POST":
+        secilen_urun = core_models.Urun.objects.get(pk=request.POST["urun"])
+        secilen_sira = core_models.OtomatSira.objects.get(pk=request.POST["sira"])
+        sira_urun = core_models.OtomatUrun(urun=secilen_urun, sira=secilen_sira)
+        sira_urun.save()
+        return redirect("otomat_detay", slug=otomat.slug)
 
     context = {
         "otomat": otomat,
+        "sira_urunler": sira_urunler,
+        "tum_urunler": urunler_listesi,
+        "toplam_kapasite": toplam_kapasite,
     }
-
     return render(request, "otomat.html", context)
 
 
@@ -89,7 +199,6 @@ def otomat_ekle(request):
 
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
 def otomat_duzenle(request, pk):
-
     otomat = get_object_or_404(core_models.Otomat, pk=pk)
     if request.method == "POST":
         ad = request.POST["ad"]
@@ -101,7 +210,7 @@ def otomat_duzenle(request, pk):
         otomat.konum = konum
         otomat.kapasite = kapasite
         otomat.save()
-        return redirect("otomat_detay", slug=otomat.slug)
+        return redirect("otomatlar")
     return render(request, "otomatlar.html")
 
 
@@ -219,10 +328,12 @@ def urun(request, slug):
     product = get_object_or_404(core_models.Urun, slug=slug)
     images = core_models.UrunResim.objects.filter(urun=product)
     categories = core_models.Kategori.objects.all()
+    sira_urunler = core_models.OtomatUrun.objects.filter(urun=product)
     context = {
         "urun": product,
         "resimler": images,
         "kategoriler": categories,
+        "urun_sira": sira_urunler,
     }
     return render(request, "urun.html", context)
 
@@ -324,6 +435,37 @@ def home(request):
     # return redirect(f"{settings.LOGIN_URL}?next={request.path}")
     context = {"message": "Home Page"}
     return render(request, HomePageView.template_name, context)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+@require_http_methods(["GET"])
+def user(request):
+    user_profile = request.user
+    context = {
+        "user": user_profile,
+    }
+    return render(request, "user.html", context)
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def user_update(request):
+    if request.method == "POST":
+        session_user = get_object_or_404(User, pk=request.user.pk)
+        form = core_forms.UpdateUserForm(request.POST, instance=session_user)
+        if form.is_valid():
+            form.save()
+            return redirect("user")
+    else:
+        form = core_forms.UpdateUserForm(instance=request.user)
+    return render(request, "user.html", {"form": form})
+
+
+@login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
+def user_delete(request):
+    if request.method == "POST":
+        session_user = get_object_or_404(User, pk=request.user.pk)
+        session_user.delete()
+        return redirect("home")
 
 
 def auth_logout(request):

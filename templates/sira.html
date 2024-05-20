@@ -4,11 +4,11 @@
 {% load static %}
 
 <!-- Title -->
-{% block title %}- Otomatlar Listesi{% endblock %}
+{% block title %}- Otomat Sırası{% endblock %}
 <!-- OG Title -->
-{% block og_title %}Otomatlar Listesi{% endblock %}
+{% block og_title %}Otomat Sırası{% endblock %}
 <!-- TW Title -->
-{% block tw_title %}Otomatlar Listesi{% endblock %}
+{% block tw_title %}Otomat Sırası{% endblock %}
 <!-- Keywords -->
 {% block keywords %}otomat, vending, otomasyon, crm, django{% endblock %}
 <!-- Description -->
@@ -21,16 +21,16 @@
 {% block style %} smain { background-color: #c4c4c4 !important; } {% endblock %}
 <!-- Body -->
 {% block body %}
-<section class="mt-4" aria-label="Otomat" id="otomat">
+<section class="mt-4" aria-label="Otomat Sıra" id="otomat-sira">
     <div class="container">
                 <div class="row">
                         <div class="card">
                             <div class="card-header">
-                                <a class="text-decoration-none" href="{% url 'otomat_detay' otomat.slug %}">
+                                <a class="text-decoration-none" href="{% url 'otomat_detay' sira.otomat.slug %}">
                                     <h2 class="fs-5 fw-bold text-capitalize text-decoration-none">
-                                        {{ otomat.ad }} - {{ otomat.konum }}
+                                        {{ sira.otomat.ad }} - {{ sira.sira_harf }}-{{ sira.sira_no }}
                                         </a>
-                                        {% if otomat.durum == True %}
+                                        {% if sira.durum == True %}
                                             <span class="badge bg-success rounded-pill">Aktif</span>
                                             {% else %}
                                             <span class="badge bg-danger rounded-pill">Pasif</span>
@@ -39,21 +39,19 @@
                                             <p class="fs-6 text-muted">
                                                 <span class="fw-bold">Envanter:</span>
                                                 <span class="font-monospace fw-bold fs-6
-                                                {% if toplam_kapasite < 10 %} text-danger {% endif %}
-                                                {% if toplam_kapasite < 50 %} text-warning {% endif %}
-                                                {% if toplam_kapasite > 100 %} text-success {% endif %}
+                                                {% if sira_urunler.count < 10 %} text-danger {% endif %}
+                                                {% if sira_urunler.count < 50 %} text-warning {% endif %}
+                                                {% if sira_urunler.count > 100 %} text-success {% endif %}
                                                 ">
-                                                    {{toplam_kapasite}}/{{ otomat.kapasite }}</span>
+                                                    {{sira_urunler.count}}/{{ sira.kapasite }}</span>
                                                 </p>
-                                                <p class="lead fs-6 text-muted">{{ otomat.aciklama }}</p>
                             </div>
                             <div class="card-body">
                                 <div class="row my-2 mx-auto justify-content-center align-items-center text-end">
                                     <div class="col">
-                                        {% include "otomat/_duzenle.html" %}
-                                        <a href="#" class="btn btn-success btn-sm" id="edit" hx-target="#sira-urun-form" data-bs-toggle="modal" data-bs-target="#sira-urun-modal">Ürün Ekle</a>
-                                        <a href="{% url 'otomat_duzenle' otomat.id %}" class="btn btn-warning btn-sm" id="edit" hx-target="#otomat-edit-modal" data-bs-toggle="modal" data-bs-target="#otomat-edit-modal">Otomat Düzenle</a>
-                                        <a href="{% url 'otomat_sil' otomat.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Otomat Sil</a>
+                                        {% include "sira/_duzenle.html" %}
+                                        <a href="{% url 'sira_duzenle' sira.id %}" class="btn btn-warning btn-sm" id="edit" hx-target="#otomat-sira-edit-modal" data-bs-toggle="modal" data-bs-target="#otomat-sira-edit-modal">Sıra Düzenle</a>
+                                        <a href="{% url 'sira_sil' sira.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Sıra Sil</a>
                                         &nbsp;
                                         <a href="{% url 'kategoriler' %}" class="link-primary fw-bold fs-6 text-decoration-underline
                                         ">Tüm Kategoriler</a>
@@ -64,19 +62,13 @@
                                         <a href="{% url 'otomatlar' %}" class="link-primary fw-bold fs-6 text-decoration-underline
                                         ">Tüm Otomatlar</a>
                                     </div>
-                            </div>
-                            </div>
-                            <div class="card-footer">
-                                {% include "sira/_ekle.html" %}
+                                </div>
+                                {% include "sira/_urun_ekle.html" %}
                             </div>
                         </div>
                     </div>
-                        <div class="col-md-12 mt-2">
-                                    <div class="row">
-                                        {% include "sira/_liste.html" %}
-                                    </div>
-                            </div>
-        </div>
-    </div>
-</section>
+                    {% include "sira/_urun_liste.html" %}
+                </div>
+            </div>
+        </section>
 {% endblock %}

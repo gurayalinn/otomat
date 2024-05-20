@@ -1,0 +1,19 @@
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body bg-secondary">
+                                <h5 class="card-title fs-5 text-light fw-bold">Kullanıcı Bilgileri</h5>
+                                <hr>
+                                <p class="card-text">
+                                    <strong class="text-info">ID:</strong> {{ user.id }}<br>
+                                    <strong class="text-info">Ad Soyad:</strong> {{ user.first_name }} {{ user.last_name }}<br>
+                                    <strong class="text-info">Kullanıcı Adı:</strong> {{ user.username }}<br>
+                                    <strong class="text-info">Email:</strong> {{ user.email }}<br>
+                                    <strong class="text-info">Kayıt Tarihi:</strong> {{ user.date_joined }}<br>
+                                    <strong class="text-info">Son Giriş:</strong> {{ user.last_login }}<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>

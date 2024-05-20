@@ -1,0 +1,52 @@
+<div id="sira-urun-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info">Ürün Ekle</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+<form action="" method="POST" id="sira-urun-form">
+    {% csrf_token %}
+    <div class="input-group mb-4">
+        <select
+            class="form-select"
+            aria-label="Sıra ID"
+            aria-describedby="button-addon2"
+            name="sira"
+            required
+        >
+        {% for sira in otomat_siralari %}
+            <option value="{{ sira.id }}">{{ sira.otomat.ad }} - {{ sira.sira_harf }}-{{ sira.sira_no }}</option>
+        {% endfor %}
+        </select>
+        <select
+            class="form-select"
+            aria-label="Ürün"
+            aria-describedby="button-addon2"
+            name="urun"
+            required
+        >
+        {% for urun in tum_urunler %}
+            <option value="{{ urun.id }}">{{ urun.kategori }} > {{ urun.ad }} - {{ urun.stok }} adet</option>
+        {% endfor %}
+        </select>
+
+        <button
+            class="btn btn-primary"
+            type="submit"
+        >
+            Ekle
+        </button>
+    </div>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+

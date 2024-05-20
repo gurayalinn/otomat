@@ -1,0 +1,103 @@
+<div id="user-edit-modal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info">Kullanıcı Düzenle</h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+
+            {% if user_form.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div id="form_errors">
+                        {% for key, value in user_form.errors.items %}
+                            <strong>{{ value }}</strong>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+    <div class="form-content">
+        <form enctype="multipart/form-data" action="{% url 'user_update' %}" method="POST" id="user-edit-form">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Kullanıcı Adı</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            value="{{ user.username }}"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            value="{{ user.email }}"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="first_name" class="form-label">Ad</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="first_name"
+                            name="first_name"
+                            value="{{ user.first_name }}"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="last_name" class="form-label">Soyad</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="last_name"
+                            name="last_name"
+                            value="{{ user.last_name }}"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="col-md-12 mt-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-sm">Kaydet</button>
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-sm mx-2"
+                            id="delete"
+                            hx-post="{% url 'user_delete' %}"
+                            hx-confirm="Silme işlemi geri alınamaz. Devam etmek istediğinize emin misiniz?"
+                        >
+                            Hesabı Sil
+                        </button>
+                        <a href="{% url 'password_change' %}" class="btn btn-warning btn-sm">Şifre Değiştir</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

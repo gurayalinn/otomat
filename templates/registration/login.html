@@ -39,21 +39,13 @@
         <a href="{% url 'register' %}" class="link-info">Kayıt Olun!</a>
     </p>
 
-    {% if next %}
     <!-- --- -->
     {% if user.is_authenticated %}
-    <p>
-        {{ user.email }} - Hesabınızla giriş yaptınız ve şimdi
+    <p class="text-center">
+        <span class="fw-bold text-success">{{ user.username }}</span> - Hesabınızla giriş yaptınız ve şimdi
         <a href="{{ next }}" class="link-info">devam edebilirsiniz</a>.
     </p>
     {% else %}
-    <p class="text-center text-danger">Lütfen giriş yapın.</p>
-    {% endif %}
-    <!-- --- -->
-    {% endif %}
-
-    <!-- Giriş Form -->
-
     <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         <!-- CSRF -->
@@ -85,8 +77,11 @@
         Admin paneline
         <a href="/admin" class="link-info">Giriş Yap</a>
     </p>
-
     </form>
+    {% endif %}
+
+    <!-- Giriş Form -->
+
 </section>
 
 {% endblock %}

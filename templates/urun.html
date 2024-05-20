@@ -121,6 +121,53 @@
 </div>
 </div>
 
+{% if urun_sira %}
+<div class="row mt-4">
+    <h2 class="fs-5 fw-bold text-info">Otomat Envanterleri</h2>
+    <p class="text-muted lead fw-light fs-6">Toplam: <span class="fw-bold fs-5 font-monospace text-info">{{ urun_sira.count}}</span> adet otomat envanterinde bulunmaktadır.</p>
+    <p class="text-muted lead fw-light fs-6">Bu ürünün bulunduğu sıralar:</p>
+     <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sıra</th>
+                    <th scope="col">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for urun in urun_sira %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>
+                            <a href="{% url 'sira' urun.sira.slug %}" class="text-decoration-none">
+                                <span class="fw-bold">{{ urun.sira }}</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'sira_urun_sil' urun.sira.slug urun.id %}" class="btn btn-danger btn-sm">Sil</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+</div>
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        Bu ürün otomat envanterinizde ürün bulunmamaktadır.
+    </div>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
 </div>
 </div>
 

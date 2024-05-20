@@ -1,0 +1,45 @@
+<!-- Base Template -->
+{% extends 'layout/_base.html' %}
+<!-- Static Files -->
+{% load static %}
+
+<!-- Title -->
+{% block title %}- Kullanıcı{% endblock %}
+<!-- OG Title -->
+{% block og_title %}Kullanıcı{% endblock %}
+<!-- TW Title -->
+{% block tw_title %}Kullanıcı{% endblock %}
+<!-- Keywords -->
+{% block keywords %}kullanıcı, otomat, vending, otomasyon, crm, django{% endblock %}
+<!-- Description -->
+{% block description %}Otomat app{% endblock %}
+<!-- OG Description -->
+{% block og_description %}Otomat app{% endblock %}
+<!-- TW Description -->
+{% block tw_description %}Otomat app{% endblock %}
+<!-- STYLE -->
+{% block style %} smain { background-color: #c4c4c4 !important; } {% endblock %}
+<!-- Body -->
+{% block body %}
+<section class="mt-4" aria-label="User" id="user">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="fs-2 link-info fw-bold">{{ user.username }}</h1>
+                <div class="row justify-content-start mt-4">
+                    <div class="col-auto d-flex align-items-center justify-content-start">
+                        <a href="#" class="btn btn-warning btn-sm" id="edit" hx-target="#user-edit-form" data-bs-toggle="modal" data-bs-target="#user-edit-modal">Düzenle</a>
+                        <a href="#" class="btn btn-danger btn-sm mx-2" id="delete" hx-post="{% url 'user_delete' %}" hx-confirm="Silme işlemi geri alınamaz. Devam etmek istediğinize emin misiniz?">Hesabı Sil</a>
+                        {% if user.is_superuser %}
+                        <a href="{% url 'admin:index' %}" class="btn btn-primary btn-sm">Admin Panel</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% include "user/_detay.html" %}
+            </div>
+        </div>
+    </div>
+</section>
+{% include "user/_duzenle.html" %}
+
+{% endblock %}

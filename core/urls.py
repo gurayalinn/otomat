@@ -13,6 +13,9 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name="login"),
     path("register/", core_views.register, name="register"),
     path("logout", LogoutView.as_view(), name="logout"),
+    path("user", core_views.user, name="user"),
+    path("user_update/", core_views.user_update, name="user_update"),
+    path("user_delete/", core_views.user_delete, name="user_delete"),
     path("password_reset/", PasswordResetView.as_view(), name="password_reset"),
     path(
         "password_change/",
@@ -23,6 +26,28 @@ urlpatterns = [
         "password_change/done/",
         auth_views.PasswordChangeDoneView.as_view(),
         name="password_change_done",
+    ),
+    path(
+        "sira/<slug:slug>/urun_sil/<int:pk>/",
+        core_views.sira_urun_sil,
+        name="sira_urun_sil",
+    ),
+    path(
+        "sira/<slug:slug>/urun_ekle/",
+        core_views.sira_urun_ekle,
+        name="sira_urun_ekle",
+    ),
+    path("sira_sil/<int:pk>/", core_views.sira_sil, name="sira_sil"),
+    path("sira/<slug:slug>/", core_views.sira, name="sira"),
+    path(
+        "sira_duzenle/<int:pk>/",
+        core_views.sira_duzenle,
+        name="sira_duzenle",
+    ),
+    path(
+        "otomat/<slug:slug>/sira_ekle",
+        core_views.otomat_sira_ekle,
+        name="otomat_sira_ekle",
     ),
     path("otomatlar/", core_views.otomatlar, name="otomatlar"),
     path("otomat/<slug:slug>/", core_views.otomat_detay, name="otomat_detay"),

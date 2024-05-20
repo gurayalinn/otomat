@@ -1,0 +1,33 @@
+<form action="{% url 'sira_urun_ekle' sira.slug %}" method="POST">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input
+            type="hidden"
+            class="form-control"
+            aria-label="Sıra ID"
+            aria-describedby="button-addon2"
+            name="sira"
+            id="sira"
+            value="{{ sira.id }}"
+            required
+        />
+
+        <select
+            class="form-select"
+            aria-label="Ürün"
+            aria-describedby="button-addon2"
+            name="urun"
+            required
+        >
+        {% for urun in tum_urunler %}
+            <option value="{{ urun.id }}">{{ urun.kategori }} > {{ urun.ad }} - {{ urun.stok }} adet</option>
+        {% endfor %}
+        </select>
+
+        <button
+            class="btn btn-primary"
+            type="submit"
+        >
+            Ekle
+        </button>
+    </div>

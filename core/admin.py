@@ -73,9 +73,9 @@ class OtomatSiraAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(otomat_count=Count("otomat"))
 
-    list_display = ["otomat", "sira_harf", "sira_no", "durum"]
-    search_fields = ["otomat", "sira_harf", "sira_no", "durum"]
-    list_filter = ["otomat", "sira_harf", "sira_no", "durum"]
+    list_display = ["otomat", "kapasite", "sira_harf", "sira_no", "durum"]
+    search_fields = ["otomat", "kapasite", "sira_harf", "sira_no", "durum"]
+    list_filter = ["otomat", "kapasite", "sira_harf", "sira_no", "durum"]
     list_per_page = 10
     list_display_links = ["otomat"]
 
@@ -84,11 +84,11 @@ class OtomatSiraAdmin(admin.ModelAdmin):
 
 
 class OtomatUrunAdmin(admin.ModelAdmin):
-    list_display = ["otomat", "urun", "sira", "created_at", "updated_at"]
-    search_fields = ["otomat", "urun", "sira", "created_at", "updated_at"]
-    list_filter = ["otomat", "urun", "sira", "created_at", "updated_at"]
+    list_display = ["urun", "sira", "barkod", "created_at", "updated_at"]
+    search_fields = ["urun", "sira", "barkod", "created_at", "updated_at"]
+    list_filter = ["urun", "sira", "barkod", "created_at", "updated_at"]
     list_per_page = 10
-    list_display_links = ["otomat", "urun", "sira"]
+    list_display_links = ["urun", "sira"]
 
     class Meta:
         model = models.OtomatUrun

@@ -1,0 +1,66 @@
+
+                                        <form
+                                            id="otomat-sira-form-create"
+                                            action="{% url 'otomat_sira_ekle' otomat.slug %}"
+                                            method="POST"
+                                        >
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <div class="input-group mb-3">
+
+                                                <input
+                                                    type="hidden"
+                                                    class="form-control"
+                                                    aria-label="Otomat"
+                                                    aria-describedby="button-addon2"
+                                                    name="otomat"
+                                                    id="otomat"
+                                                    value="{{ otomat.id }}"
+                                                    required
+                                                />
+
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Kapasite"
+                                                    aria-label="Kapasite"
+                                                    aria-describedby="button-addon2"
+                                                    name="kapasite"
+                                                    value="20"
+                                                    required
+                                                />
+
+                                                <select
+                                                    class="form-select"
+                                                    aria-label="Sıra Harf"
+                                                    aria-describedby="button-addon2"
+                                                    name="sira_harf"
+                                                    required
+                                                >
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+                                                <option value="E">E</option>
+                                                </select>
+
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Sıra No"
+                                                    aria-label="Sıra No"
+                                                    aria-describedby="button-addon2"
+                                                    name="sira_no"
+                                                    value="1"
+                                                    required
+                                                />
+
+                                                <button
+                                                    class="btn btn-primary"
+                                                    type="submit"
+                                                    id="button-addon2"
+                                                >
+                                                    Ekle
+                                                </button>
+                                            </div>
+                                        </form>

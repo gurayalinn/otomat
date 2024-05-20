@@ -134,7 +134,7 @@ class Otomat(models.Model):
     aciklama = models.TextField(blank=True)
     durum = models.BooleanField(default=True)
     konum = models.CharField(max_length=200)
-    kapasite = models.PositiveIntegerField(default=0)
+    kapasite = models.PositiveIntegerField(default=320)
 
     objects = models.Manager()
 
@@ -148,13 +148,13 @@ class Otomat(models.Model):
 
 class OtomatSira(models.Model):
     otomat = models.ForeignKey(Otomat, on_delete=models.CASCADE)
+    kapasite = models.PositiveIntegerField(default=20)
     sira_harf = models.CharField(
         max_length=1,
         verbose_name="Sıra Harf",
         help_text="Sıra harf",
     )
     sira_no = models.PositiveIntegerField(
-        default=1,
         verbose_name="Sıra",
         help_text="Sıra numarası",
     )
@@ -165,17 +165,39 @@ class OtomatSira(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return f"{self.sira_harf} {self.sira_no}"
+        return f"{self.otomat}-{self.sira_harf}-{self.sira_no}"
+
+    def clean(self):
+        toplam_kapasite = sum(
+            sira.kapasite for sira in OtomatSira.objects.filter(otomat=self.otomat)
+        ) + int(self.kapasite)
+        if int(toplam_kapasite) > int(self.otomat.kapasite):
+            raise ValidationError(
+                f"Otomatın sıralarının toplam kapasitesi ({toplam_kapasite}) otomatın kapasitesini ({self.otomat.kapasite}) aşıyor."
+            )
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(f"{self.sira_harf}{self.sira_no}")
+        if not self.slug:
+            base_slug = slugify(f"{self.otomat}-{self.sira_harf}-{self.sira_no}")
+            slug = base_slug
+            counter = 1
+            while OtomatSira.objects.filter(slug=slug).exists():
+
+                slug = f"{counter}-{base_slug}"
+                counter += 1
+            self.slug = slug
+        self.clean()
         super().save(*args, **kwargs)
 
 
 class OtomatUrun(models.Model):
-    otomat = models.ForeignKey(Otomat, on_delete=models.CASCADE)
     urun = models.ForeignKey(Urun, on_delete=models.CASCADE)
     sira = models.ForeignKey(OtomatSira, on_delete=models.CASCADE)
+    barkod = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -184,3 +206,14 @@ class OtomatUrun(models.Model):
 
     def __str__(self):
         return f"{self.urun} - {self.sira}"
+
+    def save(self, *args, **kwargs):
+        if self.sira.kapasite < 1:
+            raise ValidationError("Sıra kapasitesi yetersiz.")
+        if self.urun.stok < 1:
+            raise ValidationError("Ürün stokta yok.")
+        self.urun.stok -= 1
+        self.urun.save()
+        self.sira.kapasite -= 1
+        self.sira.save()
+        super().save(*args, **kwargs)
