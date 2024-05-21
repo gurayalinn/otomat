@@ -37,20 +37,28 @@
         <hr>
 
         <div class="row my-4 justify-content-center align-items-center text-center">
+
             <div class="col-lg-4 col-md-6">
-                <a href="{% url 'urunler' %}" class="btn btn-primary btn-lg w-100 dashboard-button">Ürünler</a>
+                <a href="{% url 'kategoriler' %}" class="btn btn-primary btn-lg w-100 dashboard-button text-light fw-bold fs-5 text-align-center my-2">Kategoriler</a>
             </div>
+
             <div class="col-lg-4 col-md-6">
-                <a href="{% url 'kategoriler' %}" class="btn btn-secondary btn-lg w-100 dashboard-button">Kategoriler</a>
+                <a href="{% url 'urunler' %}" class="btn btn-info btn-lg w-100 dashboard-button text-light fw-bold fs-5 text-align-center my-2">Ürünler</a>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'otomatlar' %}" class="btn btn-success btn-lg w-100 dashboard-button text-light fw-bold fs-5 text-align-center my-2">Otomatlar</a>
             </div>
         </div>
 
         <div class="row my-4 justify-content-center align-items-center text-center">
+
             <div class="col-lg-4 col-md-6">
-                <a href="{% url 'otomatlar' %}" class="btn btn-success btn-lg w-100 dashboard-button">Otomatlar</a>
+                <a href="{% url 'user' %}" class="btn btn-warning btn-lg w-100 dashboard-button text-light fw-bold fs-5 text-align-center my-2">Kullanıcı</a>
             </div>
+
             <div class="col-lg-4 col-md-6">
-                <a href="{% url 'user' %}" class="btn btn-warning btn-lg w-100 dashboard-button">Kullanıcı</a>
+                <a href="{% url 'home' %}" class="btn btn-danger btn-lg w-100 dashboard-button text-light fw-bold fs-5 text-align-center my-2">Abonman</a>
             </div>
 
         </div>

@@ -65,6 +65,7 @@
     }
 </script>
     <script>
+    if (document.getElementById('search-input') !== null) {
     document.getElementById('search-input').addEventListener('input', function() {
         var searchTerm = this.value.trim();
         var container = document.getElementById('search-results-container');
@@ -80,4 +81,5 @@
         mobbileContainer.innerHTML = '<div hx-get="{% url 'urun_ara' %}?q=' + searchTerm + '" hx-target="#search-results-container-nav"></div>';
 
     });
+}
 </script>

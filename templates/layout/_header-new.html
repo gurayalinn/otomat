@@ -1,0 +1,113 @@
+{% load static %}
+<!-- MARK: HEADER -->
+<header>
+        <nav
+            style="
+                margin-bottom: 0;
+                background-color: var(--bs-tertiary-bg);
+                border-radius: 1vh;
+                border-bottom: 0.1em solid var(--bs-tertiary-color);
+                box-shadow: 0 0 0.2em var(--bs-tertiary-color);
+            "
+            aria-label="Navigation"
+            role="navigation"
+            class="container-fluid navbar navbar-dark bg-dark fixed-top d-flex flex-row navbar-default navbar-static-top navbar-expand-lg justify-content-around"
+            data-bs-theme="var(--bs-body-bg)"
+        >
+            <a
+                class="navbar-brand link-info  fw-semibold fs-5 font-monospace"
+                style="color: var(--bs-body-color)"
+                href="{% url 'home' %}"
+                aria-label="Home"
+                aria-current="page"
+                title="Home"
+            >
+                <img
+                    src="{% static 'favicon/favicon.svg' %}"
+                    alt="logo"
+                    width="60"
+                    height="auto"
+                    class="d-inline-block align-text-top"
+                />
+                <span class="fw-semibold fs-5 font-monospace tablet or lower hidden">OTOMAT APP</span>
+            </a>
+
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+        <li class="mobile hidden tablet hidden nav-item active">
+            <form id="urun-search-form" hx-get="{% url 'urun_ara' %}" hx-target="#search-results-container" class="form-inline my-2 my-lg-0">
+                <input type="search" id="urun-search-input" name="q" placeholder="Ürün Ara..." class="form-control form-control-sm mr-sm-2 fs-6 fw-semibold font-monospace" aria-label="Search">
+            </form>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'kategoriler' %}">Kategoriler</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'urunler' %}">Ürünler</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'otomatlar' %}">Otomatlar</a>
+        </li>
+
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Kullanıcı
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'user' %}">Profil</a>
+          <a class="dropdown-item" href="#">Abonman</a>
+            {% if user.is_superuser %}
+            <div class="dropdown-divider"></div>
+                <a href="{% url 'admin:index' %}" class="btn btn-primary btn-sm">Admin Panel</a>
+            {% endif %}
+        </div>
+      </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item active">
+            <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="nav-link link-danger mobile hidden tablet hidden fw-semibold fs-5 font-monospace" type="submit">
+                <span class="fw-semibold fs-5 font-monospace link-danger">ÇIKIŞ</span>
+            </button>
+            </form>
+        </li>
+    {% else %}
+        <li class="nav-item active">
+            <a href="{% url 'login' %}" class="nav-link link-success mobile hidden tablet hidden fw-semibold fs-5 font-monospace">GİRİŞ</a>
+        </li>
+    {% endif %}
+
+
+    <li class="nav-item active">
+        <button class="btn btn-sm fw-semibold fs-5 font-monospace" id="toggleThemeBtn" type="button" data-toggle="toggleTheme" data-target="#toggleTheme" aria-controls="toggleTheme" aria-label="Toggle Theme">
+                <span
+                    class="bd-theme-text"
+                    type="button"
+                    style="text-decoration: none"
+                    tabindex="0"
+                    id="toggleTheme"
+                >
+                    🌞
+                </span>
+            </button>
+    </li>
+
+    </ul>
+  </div>
+
+
+
+
+</nav>
+
+</header>

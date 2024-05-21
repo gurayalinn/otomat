@@ -416,3 +416,8 @@ footer {
     right: 0;
     position: static;
 }
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+}

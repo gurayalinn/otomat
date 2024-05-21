@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //POPUP WINDOW PROTECTION
 function openPopup(url, name, windowFeatures) {
-    //Open the popup and set the opener and referrer policy instruction
     var newWindow = window.open(
         url,
         name,
@@ -123,4 +122,10 @@ document.addEventListener("DOMContentLoaded", function () {
 $(window).on("load", function () {
     $(".loader").delay(200).fadeOut("slow");
     $(".loader").addClass("active");
+});
+
+$(document).ready(function () {
+    $(".navbar-toggler").click(function () {
+        $("#navbarNav").slideToggle();
+    });
 });
