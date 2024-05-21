@@ -4,6 +4,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Ürün</th>
+                    <th scope="col">Barkod</th>
                     <th scope="col">İşlem</th>
                 </tr>
             </thead>
@@ -16,6 +17,7 @@
                             {{ sira_urun.urun.kategori }} > {{ sira_urun.urun.ad }}</td>
                             </a>
                         </a>
+                        <td><span class="badge bg-secondary font-monospace fw-light">{{ sira_urun.barkod }}</td></span>
                         <td>
                             <a href="{% url 'sira_urun_sil' sira_urun.sira.slug sira_urun.id %}" class="btn btn-danger btn-sm">Sil</a>
                         </td>

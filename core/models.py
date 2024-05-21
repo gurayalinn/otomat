@@ -167,15 +167,6 @@ class OtomatSira(models.Model):
     def __str__(self):
         return f"{self.otomat}-{self.sira_harf}-{self.sira_no}"
 
-    def clean(self):
-        toplam_kapasite = sum(
-            sira.kapasite for sira in OtomatSira.objects.filter(otomat=self.otomat)
-        ) + int(self.kapasite)
-        if int(toplam_kapasite) > int(self.otomat.kapasite):
-            raise ValidationError(
-                f"Otomatın sıralarının toplam kapasitesi ({toplam_kapasite}) otomatın kapasitesini ({self.otomat.kapasite}) aşıyor."
-            )
-
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(f"{self.otomat}-{self.sira_harf}-{self.sira_no}")
@@ -186,7 +177,6 @@ class OtomatSira(models.Model):
                 slug = f"{counter}-{base_slug}"
                 counter += 1
             self.slug = slug
-        self.clean()
         super().save(*args, **kwargs)
 
 
@@ -208,12 +198,4 @@ class OtomatUrun(models.Model):
         return f"{self.urun} - {self.sira}"
 
     def save(self, *args, **kwargs):
-        if self.sira.kapasite < 1:
-            raise ValidationError("Sıra kapasitesi yetersiz.")
-        if self.urun.stok < 1:
-            raise ValidationError("Ürün stokta yok.")
-        self.urun.stok -= 1
-        self.urun.save()
-        self.sira.kapasite -= 1
-        self.sira.save()
         super().save(*args, **kwargs)

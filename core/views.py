@@ -50,10 +50,14 @@ class PasswordChanePageView(TemplateView):
 
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
 def sira_urun_sil(request, slug, pk):
-    sira_urun = get_object_or_404(core_models.OtomatUrun, pk=pk)
-    sira = sira_urun.sira
-    sira_urun.delete()
-    return redirect("sira", slug=slug)
+    try:
+        sira_urun = get_object_or_404(core_models.OtomatUrun, pk=pk)
+        sira = sira_urun.sira
+        sira_urun.delete()
+        return redirect("sira", slug=slug)
+    except Exception as e:
+        print(f"Ürün silinirken hata oluştu: : {e}")
+        return redirect("sira", slug=slug)
 
 
 @login_required(redirect_field_name="next", login_url=reverse_lazy(settings.LOGIN_URL))
