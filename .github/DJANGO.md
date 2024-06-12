@@ -44,7 +44,7 @@ py -m pip install django
 ```bash
 django-admin startproject config .
 
-py manage.py makemigrations
+python manage.py makemigrations
 
 py manage.py migrate
 ```
@@ -104,7 +104,7 @@ py -m pip uninstall -y $package_names
 > Pip uninstall all packages
 
 ```bash
-py -m pip uninstall -r requirements.txt -y
+py -m pip uninstall -r requirements.t
 ```
 
 > Sync DB and migrations

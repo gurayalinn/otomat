@@ -147,6 +147,22 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#    "default": {
+#        "ENGINE": "mssql",
+#        "NAME": "db",
+#        "USER": "sa",
+#        "PASSWORD": "!#1Password",
+#        "HOST": "127.0.0.1",
+#        "PORT": "1433",
+#        "OPTIONS": {
+#            "driver": "ODBC Driver 17 for SQL Server",
+#        },
+#    },
+# }
+
+
 # For Docker/PostgreSQL usage uncomment this and comment the DATABASES config above
 # DATABASES = {
 #     "default": {
