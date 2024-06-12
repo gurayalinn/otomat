@@ -158,7 +158,7 @@ class OtomatSira(models.Model):
         verbose_name="Sıra",
         help_text="Sıra numarası",
     )
-    durum = models.BooleanField(default=False)
+    durum = models.BooleanField(default=True)
     slug = models.SlugField(
         null=False, blank=True, unique=True, db_index=True, editable=False
     )
